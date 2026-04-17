@@ -1,0 +1,205 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Nuestra Historia — Carlos y Marlene"
+  description="Conoce la historia de amor de Carlos y Marlene, desde el primer encuentro hasta la propuesta de matrimonio."
+>
+  <!-- Page hero -->
+  <section class="page-hero">
+    <div class="container">
+      <h1>Nuestra Historia</h1>
+      <p class="page-subtitle">Un amor que comenzó con una sonrisa y creció hasta llenar nuestros corazones.</p>
+    </div>
+  </section>
+
+  <!-- Story timeline -->
+  <section class="section">
+    <div class="container">
+      <div class="timeline">
+
+        <article class="timeline-item">
+          <div class="timeline-marker">
+            <span class="tl-icon">☕</span>
+          </div>
+          <div class="timeline-body">
+            <h2 class="tl-year">El primer encuentro</h2>
+            <p>
+              Era una tarde de otoño cuando Carlos y Marlene se conocieron por primera vez en
+              una pequeña cafetería del centro. Una amiga en común hizo las presentaciones
+              y, desde el primer instante, ambos supieron que algo especial estaba comenzando.
+              La conversación fluía con una naturalidad que ninguno de los dos había sentido antes,
+              y las horas pasaron sin que se dieran cuenta.
+            </p>
+          </div>
+        </article>
+
+        <article class="timeline-item">
+          <div class="timeline-marker">
+            <span class="tl-icon">🌹</span>
+          </div>
+          <div class="timeline-body">
+            <h2 class="tl-year">Las primeras citas</h2>
+            <p>
+              Los días que siguieron estuvieron llenos de mensajes de texto, llamadas largas y
+              caminatas al atardecer. Carlos sorprendió a Marlene con un ramo de rosas rojas
+              en su segunda cita, y ella lo recibió con esa sonrisa que él ya no podría olvidar.
+              Visitaron parques, probaron restaurantes nuevos y descubrieron que compartían
+              el amor por la música, los libros y los viajes.
+            </p>
+          </div>
+        </article>
+
+        <article class="timeline-item">
+          <div class="timeline-marker">
+            <span class="tl-icon">✈️</span>
+          </div>
+          <div class="timeline-body">
+            <h2 class="tl-year">Aventuras juntos</h2>
+            <p>
+              Su relación creció con cada aventura compartida. Exploraron playas escondidas,
+              se perdieron en mercados de ciudades desconocidas y aprendieron a cocinarse
+              recetas del otro. En cada viaje, Carlos y Marlene descubrieron nuevas facetas
+              del otro y se enamoraron un poco más profundamente.
+            </p>
+          </div>
+        </article>
+
+        <article class="timeline-item">
+          <div class="timeline-marker">
+            <span class="tl-icon">💍</span>
+          </div>
+          <div class="timeline-body">
+            <h2 class="tl-year">La propuesta</h2>
+            <p>
+              Una noche estrellada, frente al mar que tanto les gustaba contemplar juntos,
+              Carlos tomó la mano de Marlene y le hizo la pregunta que cambiaría sus vidas
+              para siempre. Con las olas como testigos y las lágrimas de emoción de ambos,
+              Marlene dijo "sí" con todo su corazón. El siguiente capítulo de su historia
+              estaba a punto de comenzar.
+            </p>
+          </div>
+        </article>
+
+        <article class="timeline-item timeline-item--last">
+          <div class="timeline-marker">
+            <span class="tl-icon">💒</span>
+          </div>
+          <div class="timeline-body">
+            <h2 class="tl-year">El gran día</h2>
+            <p>
+              Ahora, rodeados del amor de familia y amigos, Carlos y Marlene están listos para
+              dar el paso más importante de sus vidas. Quieren compartir este momento único
+              con cada persona que los ha apoyado y acompañado en este hermoso camino.
+              ¡Únete a nosotros para celebrar el comienzo de nuestra nueva familia!
+            </p>
+            <a href="/rsvp" class="btn-primary" style="display:inline-block;margin-top:1.5rem;">
+              Confirmar asistencia
+            </a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-hero {
+    background: linear-gradient(160deg, var(--color-blush) 0%, var(--color-cream) 100%);
+    padding: 5rem 1.5rem 3rem;
+    text-align: center;
+  }
+
+  .page-hero h1 {
+    font-size: clamp(2.2rem, 6vw, 4rem);
+    margin-bottom: 1rem;
+  }
+
+  .page-subtitle {
+    font-family: var(--font-heading);
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--color-accent);
+    max-width: 55ch;
+    margin: 0 auto;
+  }
+
+  /* Timeline */
+  .timeline {
+    position: relative;
+    max-width: 780px;
+    margin: 0 auto;
+    padding-left: 3rem;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 16px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--color-blush), var(--color-primary), var(--color-blush));
+  }
+
+  .timeline-item {
+    position: relative;
+    padding: 0 0 3.5rem 2rem;
+  }
+
+  .timeline-item--last { padding-bottom: 0; }
+
+  .timeline-marker {
+    position: absolute;
+    left: -3rem;
+    top: 0;
+    width: 2.2rem;
+    height: 2.2rem;
+    background: var(--color-cream);
+    border: 2px solid var(--color-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .tl-icon { font-size: 1rem; line-height: 1; }
+
+  .tl-year {
+    font-size: 1.4rem;
+    color: var(--color-primary);
+    margin-bottom: 0.75rem;
+  }
+
+  .timeline-body p {
+    font-size: 1.02rem;
+    max-width: 60ch;
+  }
+
+  .btn-primary {
+    background: var(--color-primary);
+    color: var(--color-light);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    padding: 0.85rem 2.2rem;
+    border-radius: 2px;
+    text-decoration: none;
+    transition: background 0.25s, transform 0.2s;
+  }
+
+  .btn-primary:hover {
+    background: var(--color-dark);
+    transform: translateY(-2px);
+    text-decoration: none;
+  }
+
+  @media (max-width: 600px) {
+    .timeline { padding-left: 2.5rem; }
+    .timeline-item { padding-left: 1.5rem; }
+    .timeline-marker { left: -2.5rem; }
+  }
+</style>
