@@ -1,0 +1,286 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+  canonicalURL?: string;
+}
+
+const {
+  title,
+  description,
+  ogImage = 'https://carlosymarlene.com/og-default.jpg',
+  canonicalURL = Astro.url.href,
+} = Astro.props;
+
+const navLinks = [
+  { href: '/', label: 'Inicio' },
+  { href: '/nosotros', label: 'Nosotros' },
+  { href: '/galeria', label: 'Galería' },
+  { href: '/ubicacion', label: 'Ubicación' },
+  { href: '/rsvp', label: 'RSVP' },
+];
+
+const currentPath = new URL(Astro.url).pathname;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+
+    <!-- Canonical -->
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-inner">
+        <a href="/" class="site-logo">Carlos &amp; Marlene</a>
+        <nav class="site-nav" aria-label="Navegación principal">
+          <ul>
+            {navLinks.map(({ href, label }) => (
+              <li>
+                <a
+                  href={href}
+                  class:list={[
+                    'nav-link',
+                    { active: currentPath === href || (href !== '/' && currentPath.startsWith(href)) },
+                  ]}
+                >
+                  {label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <p class="footer-names">Carlos &amp; Marlene</p>
+        <p class="footer-copy">&copy; {new Date().getFullYear()} — Con amor, para siempre.</p>
+      </div>
+    </footer>
+
+    <script>
+      const toggle = document.querySelector('.nav-toggle') as HTMLButtonElement | null;
+      const nav = document.querySelector('.site-nav') as HTMLElement | null;
+      toggle?.addEventListener('click', () => {
+        const expanded = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', String(!expanded));
+        nav?.classList.toggle('open');
+      });
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  /* ── Reset & base ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --color-primary: #b8860b;
+    --color-accent:  #c8956c;
+    --color-blush:   #f5e6e8;
+    --color-cream:   #faf6f0;
+    --color-dark:    #3d2b1f;
+    --color-light:   #ffffff;
+    --font-heading:  'Playfair Display', Georgia, serif;
+    --font-body:     'Lato', 'Helvetica Neue', sans-serif;
+    --max-width:     1100px;
+    --section-gap:   4rem;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    background-color: var(--color-cream);
+    color: var(--color-dark);
+    line-height: 1.7;
+    font-size: 1rem;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  main { flex: 1; }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-heading);
+    color: var(--color-dark);
+    line-height: 1.2;
+  }
+
+  a { color: var(--color-primary); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  img { max-width: 100%; display: block; }
+
+  /* ── Header ── */
+  .site-header {
+    background-color: var(--color-light);
+    border-bottom: 1px solid #e8d8c4;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .header-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .site-logo {
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    font-style: italic;
+    color: var(--color-primary);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .site-nav ul {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+  }
+
+  .nav-link {
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-dark);
+    text-decoration: none;
+    padding-bottom: 2px;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .nav-link:hover,
+  .nav-link.active {
+    color: var(--color-primary);
+    border-bottom-color: var(--color-primary);
+    text-decoration: none;
+  }
+
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+  }
+
+  .nav-toggle span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--color-dark);
+    border-radius: 2px;
+    transition: transform 0.3s;
+  }
+
+  /* ── Footer ── */
+  .site-footer {
+    background-color: var(--color-dark);
+    color: rgba(255,255,255,0.75);
+    text-align: center;
+    padding: 2.5rem 1.5rem;
+  }
+
+  .footer-names {
+    font-family: var(--font-heading);
+    font-style: italic;
+    font-size: 1.4rem;
+    color: var(--color-light);
+    margin-bottom: 0.4rem;
+  }
+
+  .footer-copy { font-size: 0.85rem; }
+
+  /* ── Utility ── */
+  .container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .section { padding: var(--section-gap) 0; }
+
+  .section-title {
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .section-divider {
+    display: block;
+    width: 60px;
+    height: 2px;
+    background: var(--color-primary);
+    margin: 0 auto 2.5rem;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 720px) {
+    .nav-toggle { display: flex; }
+
+    .site-nav {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: var(--color-light);
+      border-top: 1px solid #e8d8c4;
+      padding: 1rem 0;
+    }
+
+    .site-nav.open { display: block; }
+
+    .site-nav ul {
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .site-nav ul li a {
+      display: block;
+      padding: 0.75rem 1.5rem;
+    }
+  }
+</style>

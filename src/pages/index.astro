@@ -1,0 +1,262 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Carlos y Marlene — Nuestra Boda"
+  description="Celebra con nosotros el día más especial de nuestras vidas."
+>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-inner">
+      <p class="hero-pre">— Nos casamos —</p>
+      <h1 class="hero-title">Carlos <span class="amp">&amp;</span> Marlene</h1>
+      <p class="hero-date" id="wedding-date">Fecha próximamente</p>
+      <a href="/rsvp" class="btn-primary">Confirmar asistencia</a>
+    </div>
+  </section>
+
+  <!-- Countdown -->
+  <section class="section countdown-section">
+    <div class="container">
+      <h2 class="section-title">Cuenta regresiva</h2>
+      <span class="section-divider"></span>
+      <div class="countdown-wrap" id="countdown-wrap">
+        <p class="countdown-placeholder">
+          ✨ La fecha se anunciará muy pronto. ¡Mantente pendiente! ✨
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Welcome -->
+  <section class="section welcome-section">
+    <div class="container welcome-inner">
+      <div class="welcome-text">
+        <h2 class="section-title" style="text-align:left;">Bienvenidos</h2>
+        <span class="section-divider" style="margin-left:0;"></span>
+        <p>
+          Con el corazón lleno de alegría y amor, queremos compartir con ustedes
+          el inicio de nuestra nueva vida juntos. Este día tan especial no sería
+          el mismo sin la presencia de las personas que más queremos.
+        </p>
+        <p style="margin-top:1rem;">
+          Los invitamos a ser parte de nuestra celebración, a reír, bailar y crear
+          recuerdos que atesoraremos para siempre. Su compañía es el regalo más
+          grande que podríamos pedir.
+        </p>
+        <div class="welcome-cta">
+          <a href="/nosotros" class="btn-secondary">Nuestra historia</a>
+          <a href="/ubicacion" class="btn-secondary">Lugar del evento</a>
+        </div>
+      </div>
+      <div class="welcome-ornament" aria-hidden="true">
+        <span class="ornament-ring">C &amp; M</span>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  /* Countdown — activates once a real date is set.
+     Replace WEDDING_DATE with an ISO date string, e.g. "2026-06-20T18:00:00" */
+  const WEDDING_DATE = '';
+
+  if (WEDDING_DATE) {
+    const target = new Date(WEDDING_DATE).getTime();
+    const wrap = document.getElementById('countdown-wrap');
+
+    function tick() {
+      const diff = target - Date.now();
+      if (!wrap) return;
+      if (diff <= 0) {
+        wrap.innerHTML = '<p class="countdown-placeholder">¡Hoy es el gran día! 🎉</p>';
+        return;
+      }
+      const days    = Math.floor(diff / 86400000);
+      const hours   = Math.floor((diff % 86400000) / 3600000);
+      const minutes = Math.floor((diff % 3600000)  / 60000);
+      const seconds = Math.floor((diff % 60000)    / 1000);
+
+      wrap.innerHTML = `
+        <div class="countdown-grid">
+          ${[['Días', days], ['Horas', hours], ['Minutos', minutes], ['Segundos', seconds]]
+            .map(([label, val]) => `
+              <div class="countdown-unit">
+                <span class="countdown-num">${String(val).padStart(2,'0')}</span>
+                <span class="countdown-label">${label}</span>
+              </div>`).join('')}
+        </div>`;
+    }
+
+    tick();
+    setInterval(tick, 1000);
+  }
+</script>
+
+<style>
+  /* Hero */
+  .hero {
+    background: linear-gradient(160deg, var(--color-blush) 0%, var(--color-cream) 100%);
+    min-height: 85vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 5rem 1.5rem;
+  }
+
+  .hero-inner { max-width: 700px; }
+
+  .hero-pre {
+    font-family: var(--font-heading);
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--color-accent);
+    letter-spacing: 0.12em;
+    margin-bottom: 1rem;
+  }
+
+  .hero-title {
+    font-size: clamp(3rem, 10vw, 6rem);
+    font-weight: 700;
+    color: var(--color-dark);
+    line-height: 1.05;
+    margin-bottom: 1.2rem;
+  }
+
+  .amp {
+    color: var(--color-primary);
+    font-style: italic;
+  }
+
+  .hero-date {
+    font-family: var(--font-heading);
+    font-size: clamp(1.1rem, 3vw, 1.5rem);
+    color: var(--color-accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 2.5rem;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    background: var(--color-primary);
+    color: var(--color-light);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    padding: 0.9rem 2.5rem;
+    border-radius: 2px;
+    text-decoration: none;
+    transition: background 0.25s, transform 0.2s;
+  }
+
+  .btn-primary:hover {
+    background: var(--color-dark);
+    transform: translateY(-2px);
+    text-decoration: none;
+  }
+
+  /* Countdown */
+  .countdown-section { background: var(--color-blush); }
+
+  .countdown-placeholder {
+    text-align: center;
+    font-family: var(--font-heading);
+    font-style: italic;
+    font-size: 1.2rem;
+    color: var(--color-accent);
+  }
+
+  :global(.countdown-grid) {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  :global(.countdown-unit) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+  }
+
+  :global(.countdown-num) {
+    font-family: var(--font-heading);
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 700;
+    color: var(--color-primary);
+    line-height: 1;
+  }
+
+  :global(.countdown-label) {
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-dark);
+  }
+
+  /* Welcome */
+  .welcome-inner {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .welcome-text p {
+    font-size: 1.05rem;
+    color: var(--color-dark);
+    max-width: 56ch;
+  }
+
+  .welcome-cta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+  }
+
+  .btn-secondary {
+    display: inline-block;
+    border: 2px solid var(--color-primary);
+    color: var(--color-primary);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    padding: 0.7rem 1.8rem;
+    border-radius: 2px;
+    text-decoration: none;
+    transition: background 0.25s, color 0.25s;
+  }
+
+  .btn-secondary:hover {
+    background: var(--color-primary);
+    color: var(--color-light);
+    text-decoration: none;
+  }
+
+  .ornament-ring {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    border: 3px solid var(--color-primary);
+    font-family: var(--font-heading);
+    font-style: italic;
+    font-size: 1.8rem;
+    color: var(--color-primary);
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 720px) {
+    .welcome-inner { grid-template-columns: 1fr; }
+    .welcome-ornament { display: none; }
+  }
+</style>
