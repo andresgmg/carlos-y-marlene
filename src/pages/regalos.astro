@@ -1,0 +1,105 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Lista de Regalos — Carlos y Marlene"
+  description="Tu presencia en nuestra boda es el único regalo que pedimos. Si deseas obsequiarnos algo, aquí está nuestra lista de novios."
+>
+  <section class="page-hero">
+    <div class="container">
+      <h1>Lista de Regalos</h1>
+      <p class="page-subtitle">Tu presencia en nuestra boda es el único regalo que pedimos.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="regalos-wrap">
+        <div class="regalos-icon" aria-hidden="true">🎁</div>
+
+        <p class="regalos-message">
+          Sin embargo, si deseas bendecir aún más nuestro día especial con un regalo,
+          te dejamos nuestra lista de novios.
+        </p>
+
+        <a
+          href="https://milistadenovios.cl/enviar-regalo?id=36279"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-regalos"
+        >
+          Ver lista de novios
+        </a>
+
+        <p class="regalos-thanks">
+          ¡Muchas gracias por tu cariño y generosidad! 💛
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-hero {
+    background: linear-gradient(160deg, var(--color-blush) 0%, var(--color-cream) 100%);
+    padding: 5rem 1.5rem 3rem;
+    text-align: center;
+  }
+
+  .page-hero h1 { font-size: clamp(2.2rem, 6vw, 4rem); margin-bottom: 1rem; }
+
+  .page-subtitle {
+    font-family: var(--font-heading);
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--color-accent);
+  }
+
+  .regalos-wrap {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .regalos-icon {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .regalos-message {
+    font-size: 1.15rem;
+    color: var(--color-dark);
+    margin-bottom: 2.5rem;
+    line-height: 1.7;
+  }
+
+  .btn-regalos {
+    display: inline-block;
+    background: var(--color-primary);
+    color: var(--color-light);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-size: 1.1rem;
+    padding: 1.1rem 3rem;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background 0.25s, transform 0.2s;
+    box-shadow: 0 4px 16px rgba(184, 134, 11, 0.3);
+  }
+
+  .btn-regalos:hover {
+    background: var(--color-dark);
+    transform: translateY(-2px);
+    text-decoration: none;
+  }
+
+  .regalos-thanks {
+    font-family: var(--font-heading);
+    font-style: italic;
+    font-size: 1.3rem;
+    color: var(--color-accent);
+    margin-top: 2.5rem;
+  }
+</style>

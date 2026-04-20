@@ -18,7 +18,8 @@ const navLinks = [
   { href: '/nosotros', label: 'Nosotros' },
   { href: '/galeria', label: 'Galería' },
   { href: '/ubicacion', label: 'Ubicación' },
-  { href: '/rsvp', label: 'RSVP' },
+  { href: '/confirmar', label: 'Confirmar' },
+  { href: '/regalos', label: 'Regalos' },
 ];
 
 const currentPath = new URL(Astro.url).pathname;
@@ -84,7 +85,12 @@ const currentPath = new URL(Astro.url).pathname;
     <footer class="site-footer">
       <div class="footer-inner">
         <p class="footer-names">Carlos &amp; Marlene</p>
-        <p class="footer-copy">&copy; {new Date().getFullYear()} — Con amor, para siempre.</p>
+        <p class="footer-date">26 de septiembre de 2026</p>
+        <div class="footer-contact">
+          <a href="https://wa.me/56982218416?text=Hola%20Marlene%2C%20tengo%20una%20consulta%20sobre%20la%20boda" target="_blank" rel="noopener noreferrer" class="footer-whatsapp">📱 Marlene</a>
+          <a href="https://wa.me/56951117662?text=Hola%20Carlos%2C%20tengo%20una%20consulta%20sobre%20la%20boda" target="_blank" rel="noopener noreferrer" class="footer-whatsapp">📱 Carlos</a>
+        </div>
+        <p class="footer-copy">&copy; 2026 — Con amor, para siempre.</p>
       </div>
     </footer>
 
@@ -232,6 +238,32 @@ const currentPath = new URL(Astro.url).pathname;
   }
 
   .footer-copy { font-size: 0.85rem; }
+
+  .footer-date {
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 1rem;
+  }
+
+  .footer-contact {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .footer-whatsapp {
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+  }
+
+  .footer-whatsapp:hover {
+    color: #25d366;
+    text-decoration: none;
+  }
 
   /* ── Utility ── */
   .container {

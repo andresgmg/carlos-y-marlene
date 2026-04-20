@@ -1,16 +1,21 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
+/*
+  Fotos de la galería — Para reemplazar una foto:
+  1. Coloca la nueva imagen en la carpeta /pdf_img/ (o cualquier carpeta pública)
+  2. Actualiza la propiedad "src" con la ruta correcta
+  3. Actualiza "caption" si es necesario
+*/
 const photos = [
-  { caption: 'Nuestra primera foto juntos', shade: '#e8cdd0' },
-  { caption: 'Vacaciones en la playa',       shade: '#d4b8bb' },
-  { caption: 'Cumpleaños de Carlos',          shade: '#c8a8ac' },
-  { caption: 'Tarde de otoño en el parque',   shade: '#e0c4c8' },
-  { caption: 'La propuesta de matrimonio',    shade: '#f0d8da' },
-  { caption: 'Festejando con la familia',     shade: '#d8bcbf' },
-  { caption: 'Viaje a la montaña',            shade: '#cdb0b4' },
-  { caption: 'Nuestra sesión de fotos',       shade: '#e4cdd0' },
-  { caption: 'Preparativos de la boda',       shade: '#dac0c4' },
+  { src: '/pdf_img/Invitación_pdf_page-0016.jpg', caption: 'La propuesta — Laguna San Rafael' },
+  { src: '/pdf_img/Invitación_pdf_page-0012.jpg', caption: 'Viaje a Brasil — Cristo Redentor' },
+  { src: '/pdf_img/Invitación_pdf_page-0013.jpg', caption: 'Viaje a Perú — Machu Picchu' },
+  { src: '/pdf_img/Invitación_pdf_page-0015.jpg', caption: 'Viaje a Argentina — Buenos Aires' },
+  { src: '/pdf_img/Invitación_pdf_page-0005.jpg', caption: 'Atardecer juntos' },
+  { src: '/pdf_img/Invitación_pdf_page-0011.jpg', caption: 'Laguna San Rafael — Glaciar' },
+  { src: '/pdf_img/Invitación_pdf_page-0017.jpg', caption: 'Caminata por el bosque' },
+  { src: '/pdf_img/Invitación_pdf_page-0014.jpg', caption: 'Aventuras — Parapente y senderismo' },
 ];
 ---
 
@@ -32,18 +37,13 @@ const photos = [
 
       <div class="gallery-grid">
         {photos.map((photo) => (
-          <figure class="gallery-item" style={`background-color:${photo.shade};`}>
-            <div class="gallery-placeholder" aria-hidden="true">
-              <span class="gallery-icon">📷</span>
-            </div>
+          <figure class="gallery-item">
+            <!-- Reemplaza la imagen con tu propia foto manteniendo el mismo formato -->
+            <img src={photo.src} alt={photo.caption} class="gallery-img" loading="lazy" />
             <figcaption class="gallery-caption">{photo.caption}</figcaption>
           </figure>
         ))}
       </div>
-
-      <p class="gallery-note">
-        Pronto añadiremos nuestras fotos favoritas. ¡Vuelve a visitarnos!
-      </p>
     </div>
   </section>
 </Layout>
@@ -85,14 +85,11 @@ const photos = [
     box-shadow: 0 8px 24px rgba(61, 43, 31, 0.18);
   }
 
-  .gallery-placeholder {
+  .gallery-img {
     aspect-ratio: 4 / 3;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 100%;
+    object-fit: cover;
   }
-
-  .gallery-icon { font-size: 3rem; opacity: 0.5; }
 
   .gallery-caption {
     background: rgba(255,255,255,0.85);
@@ -102,13 +99,5 @@ const photos = [
     color: var(--color-dark);
     text-align: center;
     border-top: 1px solid rgba(61,43,31,0.08);
-  }
-
-  .gallery-note {
-    text-align: center;
-    font-family: var(--font-heading);
-    font-style: italic;
-    color: var(--color-accent);
-    font-size: 1.05rem;
   }
 </style>

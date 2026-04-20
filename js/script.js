@@ -32,7 +32,7 @@ if (toggle && links) {
 
 // ---- Countdown timer ----
 function updateCountdown() {
-  const weddingDate = new Date('2027-11-15T18:00:00');
+  const weddingDate = new Date('2026-09-26T16:30:00');
   const now         = new Date();
   const diff        = weddingDate - now;
 
@@ -81,55 +81,6 @@ if (fadeEls.length) {
 
   fadeEls.forEach(el => observer.observe(el));
 }
-
-// ---- RSVP form submission ----
-const rsvpForm = document.getElementById('rsvp-form');
-if (rsvpForm) {
-  rsvpForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-
-    const name    = rsvpForm.querySelector('#rsvp-name').value.trim();
-    const confirm = rsvpForm.querySelector('#rsvp-confirm').value;
-
-    if (!name) {
-      showToast('Por favor ingresa tu nombre 😊', 'warning');
-      return;
-    }
-
-    const modal = document.getElementById('rsvp-success-modal');
-    const modalMsg = document.getElementById('modal-rsvp-message');
-    if (modalMsg) {
-      if (confirm === 'si') {
-        modalMsg.textContent = `¡Nos vemos pronto, ${name}! Tu confirmación fue recibida. ¡No podemos esperar para celebrar juntos! 🥂`;
-      } else {
-        modalMsg.textContent = `Gracias por hacernos saber, ${name}. Te echaremos de menos en este día especial. ❤️`;
-      }
-    }
-    if (modal) modal.classList.add('active');
-    rsvpForm.reset();
-  });
-}
-
-// ---- Gift reservation ----
-document.querySelectorAll('.btn-reserve').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const card = btn.closest('.gift-card');
-    if (!card || card.classList.contains('reserved')) return;
-
-    const giftName = card.querySelector('.gift-name')?.textContent || 'este regalo';
-    const modal    = document.getElementById('gift-modal');
-    const modalMsg = document.getElementById('modal-gift-message');
-    if (modalMsg) {
-      modalMsg.textContent = `Has reservado "${giftName}". Por favor contáctanos para coordinar el regalo. ¡Muchísimas gracias! 🎁`;
-    }
-
-    card.classList.add('reserved');
-    btn.textContent = 'Reservado ✓';
-    btn.disabled    = true;
-
-    if (modal) modal.classList.add('active');
-  });
-});
 
 // ---- Modal close ----
 document.querySelectorAll('.modal-close, .modal-overlay').forEach(el => {

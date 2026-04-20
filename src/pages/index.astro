@@ -11,8 +11,8 @@ import Layout from '../layouts/Layout.astro';
     <div class="hero-inner">
       <p class="hero-pre">— Nos casamos —</p>
       <h1 class="hero-title">Carlos <span class="amp">&amp;</span> Marlene</h1>
-      <p class="hero-date" id="wedding-date">Fecha próximamente</p>
-      <a href="/rsvp" class="btn-primary">Confirmar asistencia</a>
+      <p class="hero-date" id="wedding-date">26 de septiembre de 2026 · Puente Alto, Chile</p>
+      <a href="/confirmar" class="btn-primary">Confirmar asistencia</a>
     </div>
   </section>
 
@@ -23,7 +23,7 @@ import Layout from '../layouts/Layout.astro';
       <span class="section-divider"></span>
       <div class="countdown-wrap" id="countdown-wrap">
         <p class="countdown-placeholder">
-          ✨ La fecha se anunciará muy pronto. ¡Mantente pendiente! ✨
+          ✨ Cargando cuenta regresiva... ✨
         </p>
       </div>
     </div>
@@ -36,9 +36,8 @@ import Layout from '../layouts/Layout.astro';
         <h2 class="section-title" style="text-align:left;">Bienvenidos</h2>
         <span class="section-divider" style="margin-left:0;"></span>
         <p>
-          Con el corazón lleno de alegría y amor, queremos compartir con ustedes
-          el inicio de nuestra nueva vida juntos. Este día tan especial no sería
-          el mismo sin la presencia de las personas que más queremos.
+          Este año diremos sí a ser una nueva familia y, de todo corazón,
+          queremos que TÚ estés con nosotros.
         </p>
         <p style="margin-top:1rem;">
           Los invitamos a ser parte de nuestra celebración, a reír, bailar y crear
@@ -60,7 +59,7 @@ import Layout from '../layouts/Layout.astro';
 <script>
   /* Countdown — activates once a real date is set.
      Replace WEDDING_DATE with an ISO date string, e.g. "2026-06-20T18:00:00" */
-  const WEDDING_DATE = '';
+  const WEDDING_DATE = '2026-09-26T16:30:00';
 
   if (WEDDING_DATE) {
     const target = new Date(WEDDING_DATE).getTime();
