@@ -1,4 +1,6 @@
 ---
+import Analytics from '@vercel/analytics/astro';
+
 interface Props {
   title: string;
   description: string;
@@ -87,8 +89,8 @@ const currentPath = new URL(Astro.url).pathname;
         <p class="footer-names">Carlos &amp; Marlene</p>
         <p class="footer-date">26 de septiembre de 2026</p>
         <div class="footer-contact">
-          <a href="https://wa.me/56982218416?text=Hola%20Marlene%2C%20tengo%20una%20consulta%20sobre%20la%20boda" target="_blank" rel="noopener noreferrer" class="footer-whatsapp">📱 Marlene</a>
-          <a href="https://wa.me/56951117662?text=Hola%20Carlos%2C%20tengo%20una%20consulta%20sobre%20la%20boda" target="_blank" rel="noopener noreferrer" class="footer-whatsapp">📱 Carlos</a>
+          <a href="https://wa.me/56982218416?text=Hola%20Marlene%2C%20tengo%20una%20consulta%20sobre%20la%20boda" target="_blank" rel="noopener noreferrer" class="footer-whatsapp" data-track="cta_whatsapp" data-persona="marlene" data-ubicacion="footer">📱 Marlene</a>
+          <a href="https://wa.me/56951117662?text=Hola%20Carlos%2C%20tengo%20una%20consulta%20sobre%20la%20boda" target="_blank" rel="noopener noreferrer" class="footer-whatsapp" data-track="cta_whatsapp" data-persona="carlos" data-ubicacion="footer">📱 Carlos</a>
         </div>
         <p class="footer-copy">&copy; 2026 — Con amor, para siempre.</p>
       </div>
@@ -103,6 +105,23 @@ const currentPath = new URL(Astro.url).pathname;
         nav?.classList.toggle('open');
       });
     </script>
+
+    <!-- Vercel Analytics: trackea clicks en cualquier elemento con data-track -->
+    <script>
+      import { track } from '@vercel/analytics';
+      document.addEventListener('click', (e) => {
+        const el = (e.target as HTMLElement).closest('[data-track]') as HTMLElement | null;
+        if (!el) return;
+        const eventName = el.dataset.track ?? 'click';
+        const extraData: Record<string, string> = {};
+        Object.entries(el.dataset).forEach(([key, val]) => {
+          if (key !== 'track' && val !== undefined) extraData[key] = val;
+        });
+        track(eventName, extraData);
+      });
+    </script>
+
+    <Analytics />
   </body>
 </html>
 
