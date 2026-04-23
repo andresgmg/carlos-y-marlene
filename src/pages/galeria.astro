@@ -30,15 +30,36 @@ const photos = [
     </div>
   </section>
 
+  <!-- ── CARRUSEL ── -->
+  <section class="section carousel-section">
+    <div class="container">
+      <div class="carousel" id="carousel">
+        <div class="carousel-track" id="carouselTrack">
+          {photos.map((photo, i) => (
+            <div class="carousel-slide" data-index={i}>
+              <img src={photo.src} alt={photo.caption} class="carousel-img" loading={i === 0 ? 'eager' : 'lazy'} />
+              <p class="carousel-caption">{photo.caption}</p>
+            </div>
+          ))}
+        </div>
+
+        <button class="carousel-btn carousel-prev" id="carouselPrev" aria-label="Foto anterior">&#8592;</button>
+        <button class="carousel-btn carousel-next" id="carouselNext" aria-label="Foto siguiente">&#8594;</button>
+      </div>
+
+      <div class="carousel-dots" id="carouselDots"></div>
+    </div>
+  </section>
+
+  <!-- ── GRILLA ── -->
   <section class="section">
     <div class="container">
       <h2 class="section-title">Nuestros momentos</h2>
       <span class="section-divider"></span>
 
       <div class="gallery-grid">
-        {photos.map((photo) => (
-          <figure class="gallery-item">
-            <!-- Reemplaza la imagen con tu propia foto manteniendo el mismo formato -->
+        {photos.map((photo, i) => (
+          <figure class="gallery-item" data-index={i} role="button" tabindex="0" aria-label={`Ver ${photo.caption}`}>
             <img src={photo.src} alt={photo.caption} class="gallery-img" loading="lazy" />
             <figcaption class="gallery-caption">{photo.caption}</figcaption>
           </figure>
@@ -46,9 +67,21 @@ const photos = [
       </div>
     </div>
   </section>
+
+  <!-- ── LIGHTBOX ── -->
+  <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Vista ampliada" hidden>
+    <button class="lightbox-close" id="lightboxClose" aria-label="Cerrar">&times;</button>
+    <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Foto anterior">&#8592;</button>
+    <div class="lightbox-content">
+      <img id="lightboxImg" src="" alt="" class="lightbox-img" />
+      <p id="lightboxCaption" class="lightbox-caption"></p>
+    </div>
+    <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Foto siguiente">&#8594;</button>
+  </div>
 </Layout>
 
 <style>
+  /* ── Hero ── */
   .page-hero {
     background: linear-gradient(160deg, var(--color-blush) 0%, var(--color-cream) 100%);
     padding: 5rem 1.5rem 3rem;
@@ -64,10 +97,110 @@ const photos = [
     color: var(--color-accent);
   }
 
+  /* ── Carrusel ── */
+  .carousel-section { padding-top: 0; }
+
+  .carousel {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 6px 24px rgba(61, 43, 31, 0.15);
+    background: #000;
+    max-width: 860px;
+    margin: 0 auto;
+    cursor: grab;
+    cursor: -webkit-grab;
+  }
+
+  .carousel-track {
+    display: flex;
+    gap: 2px;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform;
+    user-select: none;
+  }
+
+  .carousel-slide {
+    flex: 0 0 calc((100% - 4px) / 3);
+    position: relative;
+  }
+
+  .carousel-img {
+    width: 100%;
+    height: clamp(200px, 38vh, 360px);
+    object-fit: cover;
+    display: block;
+    -webkit-user-drag: none;
+    user-select: none;
+    pointer-events: none;
+  }
+
+  .carousel-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0,0,0,0.6));
+    color: #fff;
+    font-family: var(--font-heading);
+    font-style: italic;
+    font-size: 1.05rem;
+    text-align: center;
+    padding: 2rem 1.5rem 1rem;
+    margin: 0;
+  }
+
+  .carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.85);
+    border: none;
+    border-radius: 50%;
+    width: 2.6rem;
+    height: 2.6rem;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+    z-index: 2;
+    color: var(--color-dark);
+  }
+
+  .carousel-btn:hover { background: rgba(255,255,255,1); }
+  .carousel-prev { left: 0.75rem; }
+  .carousel-next { right: 0.75rem; }
+
+  .carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.45rem;
+    padding: 0.65rem 0 0.25rem;
+  }
+
+  .carousel-dot {
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+    background: rgba(61, 43, 31, 0.25);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.2s, transform 0.2s;
+  }
+
+  .carousel-dot.active {
+    background: var(--color-accent, #a0522d);
+    transform: scale(1.3);
+  }
+
+  /* ── Grilla ── */
   .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(min(240px, 100%), 1fr));
+    gap: 1.25rem;
     margin-bottom: 2.5rem;
   }
 
@@ -78,6 +211,7 @@ const photos = [
     flex-direction: column;
     box-shadow: 0 4px 16px rgba(61, 43, 31, 0.1);
     transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
   }
 
   .gallery-item:hover {
@@ -100,4 +234,411 @@ const photos = [
     text-align: center;
     border-top: 1px solid rgba(61,43,31,0.08);
   }
+
+  /* ── Lightbox ── */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.92);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 1rem;
+    animation: lbFadeIn 0.2s ease;
+  }
+
+  .lightbox[hidden] { display: none; }
+
+  @keyframes lbFadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  .lightbox-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: min(90vw, 900px);
+    max-height: 90vh;
+    will-change: transform, opacity;
+  }
+
+  .lightbox-img {
+    max-width: 100%;
+    max-height: calc(90vh - 4rem);
+    object-fit: contain;
+    border-radius: 4px;
+    display: block;
+  }
+
+  .lightbox-caption {
+    color: rgba(255,255,255,0.85);
+    font-family: var(--font-heading);
+    font-style: italic;
+    font-size: 1rem;
+    margin-top: 0.75rem;
+    text-align: center;
+  }
+
+  .lightbox-close {
+    position: fixed;
+    top: 1rem;
+    right: 1.25rem;
+    background: rgba(255,255,255,0.15);
+    border: none;
+    color: #fff;
+    font-size: 1.8rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+    line-height: 1;
+  }
+
+  .lightbox-close:hover { background: rgba(255,255,255,0.3); }
+
+  .lightbox-nav {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.15);
+    border: none;
+    color: #fff;
+    font-size: 1.5rem;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+  }
+
+  .lightbox-nav:hover { background: rgba(255,255,255,0.3); }
+  .lightbox-prev { left: 1rem; }
+  .lightbox-next { right: 1rem; }
+
+  @media (max-width: 767px) {
+    .carousel-slide { flex: 0 0 calc((100% - 2px) / 2); }
+    .carousel-img { height: clamp(140px, 28vw, 240px); }
+    .carousel-btn { width: 2.2rem; height: 2.2rem; font-size: 0.95rem; }
+    .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+  }
+
+  @media (max-width: 479px) {
+    .carousel-slide { flex: 0 0 100%; /* 1 visible, sin gap */ }
+    .carousel-img { height: 220px; }
+    .carousel-prev { left: 0.4rem; }
+    .carousel-next { right: 0.4rem; }
+    .gallery-grid { grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+    .gallery-caption { font-size: 0.78rem; padding: 0.5rem 0.6rem; }
+    .lightbox-content { max-width: 98vw; }
+    .lightbox-nav { width: 2rem; height: 2rem; font-size: 1rem; }
+    .lightbox-prev { left: 0.2rem; }
+    .lightbox-next { right: 0.2rem; }
+  }
 </style>
+
+<script>
+  // ── Datos ──
+  const photos: { src: string; caption: string }[] = JSON.parse(
+    document.getElementById('galleryData')!.textContent!
+  );
+
+  // ══════════════════════════════════════
+  //  CARRUSEL
+  // ══════════════════════════════════════
+  const carousel      = document.getElementById('carousel') as HTMLElement;
+  const track         = document.getElementById('carouselTrack') as HTMLElement;
+  const dotsContainer = document.getElementById('carouselDots') as HTMLElement;
+  const AUTOPLAY_MS   = 4500;
+  const GAP           = 2; // px — debe coincidir con CSS gap
+
+  let current   = 0;
+  let autoTimer: ReturnType<typeof setInterval> | null = null;
+
+  function visibleCount(): number {
+    if (window.innerWidth <= 479) return 1;
+    if (window.innerWidth <= 767) return 2;
+    return 3;
+  }
+  function maxIdx(): number { return Math.max(0, photos.length - visibleCount()); }
+  function slideW(): number {
+    const s = track.children[0] as HTMLElement | null;
+    return (s ? s.offsetWidth : carousel.offsetWidth / visibleCount()) + GAP;
+  }
+
+  function buildDots() {
+    dotsContainer.innerHTML = '';
+    for (let i = 0; i <= maxIdx(); i++) {
+      const btn = document.createElement('button');
+      btn.className = 'carousel-dot' + (i === current ? ' active' : '');
+      btn.setAttribute('aria-label', `Ir a foto ${i + 1}`);
+      btn.addEventListener('click', () => { goTo(i); startAuto(); });
+      dotsContainer.appendChild(btn);
+    }
+  }
+
+  function goTo(index: number, animated = true) {
+    current = Math.max(0, Math.min(index, maxIdx()));
+    if (animated) track.style.transition = 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+    track.style.transform = `translateX(-${current * slideW()}px)`;
+    dotsContainer.querySelectorAll<HTMLButtonElement>('.carousel-dot')
+      .forEach((d, i) => d.classList.toggle('active', i === current));
+  }
+
+  function startAuto() {
+    if (autoTimer) clearInterval(autoTimer);
+    autoTimer = setInterval(() => goTo(current < maxIdx() ? current + 1 : 0), AUTOPLAY_MS);
+  }
+  function stopAuto() { if (autoTimer) { clearInterval(autoTimer); autoTimer = null; } }
+
+  document.getElementById('carouselPrev')!.addEventListener('click', () => { goTo(current - 1); startAuto(); });
+  document.getElementById('carouselNext')!.addEventListener('click', () => { goTo(current + 1); startAuto(); });
+
+  // Hover — solo pausa si no hay drag activo
+  carousel.addEventListener('mouseenter', () => { if (!cDragActive) stopAuto(); });
+  carousel.addEventListener('mouseleave', () => { if (!cDragActive) startAuto(); });
+
+  // Rueda del ratón
+  let wheelCd = false;
+  carousel.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    if (wheelCd) return;
+    goTo(current + ((e.deltaX !== 0 ? e.deltaX : e.deltaY) > 0 ? 1 : -1));
+    startAuto();
+    wheelCd = true;
+    setTimeout(() => { wheelCd = false; }, 600);
+  }, { passive: false });
+
+  // ── Drag unificado (touch + mouse) ──
+  let cDragActive  = false;
+  let cDragStartX  = 0;
+  let cDragStartY  = 0;
+  let cDragBaseX   = 0;
+  let cDragIsHoriz: boolean | null = null;
+  let cDragVelX    = 0;
+  let cDragLastX   = 0;
+  let cDragLastT   = 0;
+
+  function cStart(x: number, y: number) {
+    cDragActive  = true;
+    cDragStartX  = x; cDragStartY = y;
+    cDragIsHoriz = null;
+    cDragVelX    = 0; cDragLastX = x; cDragLastT = Date.now();
+    cDragBaseX   = current * slideW();
+    stopAuto();
+  }
+
+  // Devuelve true si se confirmó arrastre horizontal
+  function cMove(x: number, y: number): boolean {
+    if (!cDragActive) return false;
+    const dx = x - cDragStartX, dy = y - cDragStartY;
+
+    // Detectar dirección
+    if (cDragIsHoriz === null) {
+      if (Math.abs(dx) > 6 || Math.abs(dy) > 6)
+        cDragIsHoriz = Math.abs(dx) >= Math.abs(dy);
+      return false;
+    }
+    if (!cDragIsHoriz) { cDragActive = false; return false; }
+
+    // Velocidad instantánea
+    const now = Date.now(), dt = now - cDragLastT;
+    if (dt > 0) cDragVelX = (x - cDragLastX) / dt;
+    cDragLastX = x; cDragLastT = now;
+
+    // Posición con resistencia en extremos
+    const maxX = maxIdx() * slideW();
+    let tx = cDragBaseX - dx;
+    if (tx < 0)    tx = tx * 0.25;
+    if (tx > maxX) tx = maxX + (tx - maxX) * 0.25;
+
+    track.style.transition = 'none';
+    track.style.transform  = `translateX(-${tx}px)`;
+    return true;
+  }
+
+  function cEnd(x: number) {
+    if (!cDragActive) return;
+    cDragActive = false;
+    carousel.style.cursor = '';
+    const dx = x - cDragStartX, sw = slideW();
+    let target = current;
+    if      (dx < -(sw * 0.2) || cDragVelX < -0.35) target = current + 1;
+    else if (dx >  (sw * 0.2) || cDragVelX >  0.35) target = current - 1;
+    goTo(target);
+    startAuto();
+  }
+
+  // Touch
+  carousel.addEventListener('touchstart', (e) => {
+    if (e.touches.length > 1) return;
+    cStart(e.touches[0].clientX, e.touches[0].clientY);
+  }, { passive: true });
+
+  carousel.addEventListener('touchmove', (e) => {
+    const horiz = cMove(e.touches[0].clientX, e.touches[0].clientY);
+    if (horiz) e.preventDefault();
+  }, { passive: false });
+
+  carousel.addEventListener('touchend', (e) => {
+    cEnd(e.changedTouches[0].clientX);
+  }, { passive: true });
+
+  // Mouse
+  carousel.addEventListener('mousedown', (e) => {
+    if (e.button !== 0) return;
+    e.preventDefault();
+    cStart(e.clientX, e.clientY);
+    carousel.style.cursor = 'grabbing';
+  });
+  window.addEventListener('mousemove', (e) => { cMove(e.clientX, e.clientY); });
+  window.addEventListener('mouseup',   (e) => { if (cDragActive) cEnd(e.clientX); });
+
+  // Resize
+  let resizeT: ReturnType<typeof setTimeout> | null = null;
+  window.addEventListener('resize', () => {
+    if (resizeT) clearTimeout(resizeT);
+    resizeT = setTimeout(() => { buildDots(); goTo(Math.min(current, maxIdx()), false); }, 200);
+  });
+
+  // Init
+  buildDots();
+  goTo(0, false);
+  startAuto();
+
+  // ══════════════════════════════════════
+  //  LIGHTBOX
+  // ══════════════════════════════════════
+  let lbIndex     = 0;
+  const lightbox  = document.getElementById('lightbox') as HTMLElement;
+  const lbImg     = document.getElementById('lightboxImg') as HTMLImageElement;
+  const lbCaption = document.getElementById('lightboxCaption') as HTMLElement;
+  const lbContent = lightbox.querySelector<HTMLElement>('.lightbox-content')!;
+
+  function lbSetPhoto(index: number) {
+    lbIndex = (index + photos.length) % photos.length;
+    lbImg.src = photos[lbIndex].src;
+    lbImg.alt = photos[lbIndex].caption;
+    lbCaption.textContent = photos[lbIndex].caption;
+  }
+
+  function openLightbox(index: number) {
+    lbSetPhoto(index);
+    lbContent.style.cssText = '';
+    lightbox.removeAttribute('hidden');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('lightboxClose')!.focus();
+  }
+
+  function closeLightbox() {
+    lightbox.setAttribute('hidden', '');
+    document.body.style.overflow = '';
+    lbContent.style.cssText = '';
+  }
+
+  // Animación de slide al navegar (botones, teclado o fin de drag)
+  function navigateLightbox(dir: number, fromDragX = 0) {
+    if (lbContent.dataset.anim) return;
+    lbContent.dataset.anim = '1';
+
+    const w    = window.innerWidth;
+    // Si venimos de un drag, continuar en esa dirección; si no, usar distancia estándar
+    const outX = fromDragX !== 0 ? (fromDragX < 0 ? -w * 0.55 : w * 0.55) : (dir > 0 ? -w * 0.4 : w * 0.4);
+    const inX  = -outX;
+    const exitMs = fromDragX !== 0 ? 180 : 220;
+
+    lbContent.style.transition = `transform ${exitMs}ms ease, opacity ${exitMs}ms ease`;
+    lbContent.style.transform  = `translateX(${outX}px)`;
+    lbContent.style.opacity    = '0';
+
+    setTimeout(() => {
+      lbSetPhoto(lbIndex + dir);
+      lbContent.style.transition = 'none';
+      lbContent.style.transform  = `translateX(${inX}px)`;
+      lbContent.style.opacity    = '0';
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        lbContent.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+        lbContent.style.transform  = '';
+        lbContent.style.opacity    = '';
+        setTimeout(() => { delete lbContent.dataset.anim; }, 300);
+      }));
+    }, exitMs);
+  }
+
+  // Grilla → abrir
+  document.querySelectorAll<HTMLElement>('.gallery-item').forEach((item) => {
+    item.addEventListener('click', () => openLightbox(Number(item.dataset.index)));
+    item.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') openLightbox(Number(item.dataset.index));
+    });
+  });
+
+  document.getElementById('lightboxClose')!.addEventListener('click', closeLightbox);
+  document.getElementById('lightboxPrev')!.addEventListener('click', () => navigateLightbox(-1));
+  document.getElementById('lightboxNext')!.addEventListener('click', () => navigateLightbox(1));
+  lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+
+  document.addEventListener('keydown', (e) => {
+    if (lightbox.hasAttribute('hidden')) return;
+    if (e.key === 'Escape')     closeLightbox();
+    if (e.key === 'ArrowLeft')  navigateLightbox(-1);
+    if (e.key === 'ArrowRight') navigateLightbox(1);
+  });
+
+  // ── Drag táctil en lightbox ──
+  let lbDragActive = false;
+  let lbDragStartX = 0;
+  let lbDragDx     = 0;
+  let lbDragVelX   = 0;
+  let lbDragLastX  = 0;
+  let lbDragLastT  = 0;
+
+  lightbox.addEventListener('touchstart', (e) => {
+    if ((e.target as HTMLElement).closest('#lightboxClose, .lightbox-nav')) return;
+    if (lbContent.dataset.anim) return;
+    lbDragActive = true;
+    lbDragStartX = e.touches[0].clientX;
+    lbDragDx     = 0; lbDragVelX = 0;
+    lbDragLastX  = lbDragStartX; lbDragLastT = Date.now();
+    lbContent.style.transition = 'none';
+  }, { passive: true });
+
+  lightbox.addEventListener('touchmove', (e) => {
+    if (!lbDragActive) return;
+    const x = e.touches[0].clientX, now = Date.now(), dt = now - lbDragLastT;
+    if (dt > 0) lbDragVelX = (x - lbDragLastX) / dt;
+    lbDragLastX = x; lbDragLastT = now;
+    lbDragDx    = x - lbDragStartX;
+    lbContent.style.transform = `translateX(${lbDragDx}px)`;
+    lbContent.style.opacity   = String(Math.max(0.3, 1 - Math.abs(lbDragDx) / (window.innerWidth * 0.55)));
+  }, { passive: true });
+
+  lightbox.addEventListener('touchend', () => {
+    if (!lbDragActive) return;
+    lbDragActive = false;
+    const dx        = lbDragDx;
+    const threshold = window.innerWidth * 0.22;
+    const navigate  = Math.abs(dx) > threshold || Math.abs(lbDragVelX) > 0.5;
+
+    if (navigate) {
+      // Continúa en la dirección del drag y hace slide al nuevo
+      navigateLightbox(dx < 0 ? 1 : -1, dx);
+    } else {
+      // Spring back
+      lbContent.style.transition = 'transform 0.38s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease';
+      lbContent.style.transform  = '';
+      lbContent.style.opacity    = '';
+    }
+  }, { passive: true });
+</script>
+
+<!-- Datos de fotos para el script (evita duplicar el array en JS) -->
+<script id="galleryData" type="application/json" set:html={JSON.stringify(photos)}></script>

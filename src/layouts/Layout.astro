@@ -20,8 +20,8 @@ const navLinks = [
   { href: '/nosotros', label: 'Nosotros' },
   { href: '/galeria', label: 'Galería' },
   { href: '/ubicacion', label: 'Ubicación' },
-  { href: '/confirmar', label: 'Confirmar' },
   { href: '/regalos', label: 'Regalos' },
+  { href: 'https://docs.google.com/forms/d/e/1FAIpQLSfn3NKC_SFPmLEkvCzREwg_8ZUGn0HnqTaJSQiSwI6jxBIvXQ/viewform', label: 'Confirmar', external: true },
 ];
 
 const currentPath = new URL(Astro.url).pathname;
@@ -59,14 +59,16 @@ const currentPath = new URL(Astro.url).pathname;
         <a href="/" class="site-logo">Carlos &amp; Marlene</a>
         <nav class="site-nav" aria-label="Navegación principal">
           <ul>
-            {navLinks.map(({ href, label }) => (
+            {navLinks.map(({ href, label, external }) => (
               <li>
                 <a
                   href={href}
                   class:list={[
                     'nav-link',
-                    { active: currentPath === href || (href !== '/' && currentPath.startsWith(href)) },
+                    { active: !external && (currentPath === href || (href !== '/' && currentPath.startsWith(href))) },
+                    { 'nav-link--cta': external },
                   ]}
+                  {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                 >
                   {label}
                 </a>
@@ -219,6 +221,22 @@ const currentPath = new URL(Astro.url).pathname;
     color: var(--color-primary);
     border-bottom-color: var(--color-primary);
     text-decoration: none;
+  }
+
+  .nav-link--cta {
+    color: var(--color-light);
+    background: var(--color-primary);
+    border-bottom: none;
+    padding: 0.4rem 1rem;
+    border-radius: 2px;
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  .nav-link--cta:hover {
+    background: var(--color-dark);
+    color: var(--color-light);
+    border-bottom: none;
+    transform: translateY(-1px);
   }
 
   .nav-toggle {
