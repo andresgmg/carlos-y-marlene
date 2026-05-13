@@ -35,6 +35,10 @@ const currentPath = new URL(Astro.url).pathname;
     <title>{title}</title>
     <meta name="description" content={description} />
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+    <link rel="shortcut icon" href="/logo.svg" />
+
     <!-- Open Graph -->
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -56,7 +60,9 @@ const currentPath = new URL(Astro.url).pathname;
   <body>
     <header class="site-header">
       <div class="header-inner">
-        <a href="/" class="site-logo">Carlos &amp; Marlene</a>
+        <a href="/" class="site-logo" aria-label="Inicio — Carlos y Marlene">
+          <img src="/logo.svg" alt="Carlos y Marlene" class="site-logo-img" width="160" height="70" />
+        </a>
         <nav class="site-nav" aria-label="Navegación principal">
           <ul>
             {navLinks.map(({ href, label, external }) => (
@@ -88,7 +94,9 @@ const currentPath = new URL(Astro.url).pathname;
 
     <footer class="site-footer">
       <div class="footer-inner">
-        <p class="footer-names">Carlos &amp; Marlene</p>
+        <a href="/" aria-label="Inicio — Carlos y Marlene">
+          <img src="/logo.svg" alt="Carlos y Marlene" class="footer-logo" width="220" height="96" />
+        </a>
         <p class="footer-date">26 de septiembre de 2026</p>
         <div class="footer-contact">
           <a href="https://wa.me/56982218416?text=Hola%20Marlene%2C%20tengo%20una%20consulta%20sobre%20la%20boda" target="_blank" rel="noopener noreferrer" class="footer-whatsapp" data-track="cta_whatsapp" data-persona="marlene" data-ubicacion="footer">📱 Marlene</a>
@@ -190,13 +198,20 @@ const currentPath = new URL(Astro.url).pathname;
   }
 
   .site-logo {
-    font-family: var(--font-heading);
-    font-size: 1.4rem;
-    font-style: italic;
-    color: var(--color-primary);
     text-decoration: none;
-    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
   }
+
+  .site-logo-img {
+    height: 56px;
+    width: auto;
+    display: block;
+    transition: opacity 0.2s;
+  }
+
+  .site-logo:hover .site-logo-img { opacity: 0.85; }
 
   .site-nav ul {
     list-style: none;
@@ -266,12 +281,15 @@ const currentPath = new URL(Astro.url).pathname;
     padding: 2.5rem 1.5rem;
   }
 
-  .footer-names {
-    font-family: var(--font-heading);
-    font-style: italic;
-    font-size: 1.4rem;
-    color: var(--color-light);
-    margin-bottom: 0.4rem;
+  .footer-logo {
+    width: 200px;
+    height: auto;
+    display: block;
+    margin: 0 auto 0.6rem;
+    /* El SVG tiene fondo crema; se ve bien sobre el footer oscuro */
+    filter: brightness(1.05);
+    border-radius: 4px;
+    opacity: 0.92;
   }
 
   .footer-copy { font-size: 0.85rem; }
