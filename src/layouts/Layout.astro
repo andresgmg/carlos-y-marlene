@@ -36,8 +36,8 @@ const currentPath = new URL(Astro.url).pathname;
     <meta name="description" content={description} />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
-    <link rel="shortcut icon" href="/logo.svg" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="shortcut icon" href="/favicon.ico" />
 
     <!-- Open Graph -->
     <meta property="og:title" content={title} />
@@ -61,7 +61,7 @@ const currentPath = new URL(Astro.url).pathname;
     <header class="site-header">
       <div class="header-inner">
         <a href="/" class="site-logo" aria-label="Inicio — Carlos y Marlene">
-          <img src="/logo.svg" alt="Carlos y Marlene" class="site-logo-img" width="160" height="70" />
+          <img src="/favicon.ico" alt="Carlos y Marlene" class="site-logo-img" width="56" height="56" />
         </a>
         <nav class="site-nav" aria-label="Navegación principal">
           <ul>
@@ -95,12 +95,12 @@ const currentPath = new URL(Astro.url).pathname;
     <footer class="site-footer">
       <div class="footer-inner">
         <a href="/" aria-label="Inicio — Carlos y Marlene">
-          <img src="/logo.svg" alt="Carlos y Marlene" class="footer-logo" width="220" height="96" />
+          <img src="/favicon.ico" alt="Carlos y Marlene" class="footer-logo" width="96" height="96" />
         </a>
         <p class="footer-date">26 de septiembre de 2026</p>
         <div class="footer-contact">
-          <a href="https://wa.me/56982218416?text=Hola%20Marlene%2C%20tengo%20una%20consulta%20sobre%20la%20boda" target="_blank" rel="noopener noreferrer" class="footer-whatsapp" data-track="cta_whatsapp" data-persona="marlene" data-ubicacion="footer">📱 Marlene</a>
-          <a href="https://wa.me/56951117662?text=Hola%20Carlos%2C%20tengo%20una%20consulta%20sobre%20la%20boda" target="_blank" rel="noopener noreferrer" class="footer-whatsapp" data-track="cta_whatsapp" data-persona="carlos" data-ubicacion="footer">📱 Carlos</a>
+          <a href="https://wa.me/56982218416?text=Hola%20Marlene%2C%20tengo%20una%20consulta%20sobre%20la%20boda" target="_blank" rel="noopener noreferrer" class="footer-whatsapp" data-track="cta_whatsapp" data-persona="marlene" data-ubicacion="footer"><span class="footer-whatsapp-icon" aria-hidden="true"></span> Marlene</a>
+          <a href="https://wa.me/56951117662?text=Hola%20Carlos%2C%20tengo%20una%20consulta%20sobre%20la%20boda" target="_blank" rel="noopener noreferrer" class="footer-whatsapp" data-track="cta_whatsapp" data-persona="carlos" data-ubicacion="footer"><span class="footer-whatsapp-icon" aria-hidden="true"></span> Carlos</a>
         </div>
         <p class="footer-copy">&copy; 2026 — Con amor, para siempre.</p>
       </div>
@@ -309,10 +309,20 @@ const currentPath = new URL(Astro.url).pathname;
   }
 
   .footer-whatsapp {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
     color: rgba(255,255,255,0.85);
     text-decoration: none;
     font-size: 0.9rem;
     transition: color 0.2s;
+  }
+
+  .footer-whatsapp-icon {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+    background: no-repeat center/contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='%2325D366' d='M16 2.5C8.55 2.5 2.5 8.38 2.5 15.62c0 2.62.8 5.12 2.28 7.27L3 29.5l6.94-1.72a13.5 13.5 0 0 0 6.06 1.45c7.45 0 13.5-5.88 13.5-13.12S23.45 2.5 16 2.5Z'/%3E%3Cpath fill='%23fff' d='M23.66 20.27c-.32.9-1.6 1.67-2.2 1.75-.58.08-1.32.12-2.13-.13-.5-.16-1.14-.37-1.97-.73-3.47-1.5-5.73-4.98-5.9-5.21-.17-.23-1.41-1.88-1.41-3.59 0-1.7.89-2.54 1.21-2.89.32-.35.7-.44.93-.44h.67c.21 0 .5-.08.78.59.32.77 1.08 2.65 1.18 2.84.1.19.16.41.03.66-.13.24-.2.39-.39.59-.19.2-.4.45-.57.61-.19.17-.38.35-.16.72.22.36.99 1.62 2.12 2.62 1.45 1.29 2.67 1.69 3.05 1.88.38.19.61.16.83-.1.21-.26.92-1.07 1.17-1.44.25-.37.49-.31.83-.19.34.12 2.14 1.01 2.51 1.19.37.18.61.27.7.42.09.15.09.86-.23 1.76Z'/%3E%3C/svg%3E");
   }
 
   .footer-whatsapp:hover {

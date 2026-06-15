@@ -50,7 +50,7 @@ import Layout from '../layouts/Layout.astro';
         </div>
       </div>
       <div class="welcome-ornament" aria-hidden="true">
-        <span class="ornament-ring">C &amp; M</span>
+        <img src="/favicon.ico" alt="" class="ornament-favicon" />
       </div>
     </div>
   </section>
@@ -239,19 +239,13 @@ import Layout from '../layouts/Layout.astro';
     text-decoration: none;
   }
 
-  .ornament-ring {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .ornament-favicon {
     width: 180px;
     height: 180px;
-    border-radius: 50%;
-    border: 3px solid var(--color-primary);
-    font-family: var(--font-heading);
-    font-style: italic;
-    font-size: 1.8rem;
-    color: var(--color-primary);
+    object-fit: contain;
+    display: block;
     flex-shrink: 0;
+    border-radius: 50%;
   }
 
   @media (max-width: 720px) {
